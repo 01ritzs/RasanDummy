@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Rasan Dummy</string>
+    <string name="network">Something went wrong.</string>
 </resources>

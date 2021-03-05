@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_x_large">24sp</dimen>
+    <dimen name="ivItemHeight">320dp</dimen>
+    <dimen name="spacing">10dp</dimen>
+    <dimen name="imageSize">10dp</dimen>
+</resources>

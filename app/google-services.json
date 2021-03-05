@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1065601264937",
+    "project_id": "rasandummy",
+    "storage_bucket": "rasandummy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065601264937:android:ff244b0e6231cedec61b38",
+        "android_client_info": {
+          "package_name": "com.du.de.rasandummy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1065601264937-5r1j44esqlpksbr1pnlr8n23uohbncuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpAOjyYkw9eZh1REeN2BpAQ4iCSym7nKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1065601264937-5r1j44esqlpksbr1pnlr8n23uohbncuo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

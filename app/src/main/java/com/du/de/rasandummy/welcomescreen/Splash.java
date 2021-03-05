@@ -2,13 +2,14 @@ package com.du.de.rasandummy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
-public class MainActivity extends AppCompatActivity {
+import com.du.de.rasandummy.home.HomeActivity;
+
+public class Splash extends AppCompatActivity {
 
     private static int SPLASH_SCREEN_TIME_OUT = 2000;
 
