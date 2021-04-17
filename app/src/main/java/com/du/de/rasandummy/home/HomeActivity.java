@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.RoomDatabase.Product;
-import com.du.de.rasandummy.RoomDatabase.RasanDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,8 +23,8 @@ import java.util.List;
 
 public class HomeActivity extends Activity {
 
-    RasanDatabase rasanDatabase;
-    List<Product> productList = new ArrayList<Product>();
+    //  RasanDatabase rasanDatabase;
+    List<Product> productList = new ArrayList<>();
     RecyclerView rvItems;
     ProductsAdapter adapter;
 
@@ -62,7 +61,7 @@ public class HomeActivity extends Activity {
     private void initRecyclerView() {
         rvItems = findViewById(R.id.rvProducts);
         rvItems.setHasFixedSize(true);
-        rvItems.setLayoutManager(new GridLayoutManager(this, 2));
+        rvItems.setLayoutManager(new GridLayoutManager(this, 1));
         initFirebase();
         adapter = new ProductsAdapter(productList);
         rvItems.setAdapter(adapter);

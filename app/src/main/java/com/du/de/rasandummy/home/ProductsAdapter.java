@@ -1,5 +1,6 @@
 package com.du.de.rasandummy.home;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
 
     private List<Product> list;
+    private Context context;
 
     public ProductsAdapter(List<Product> list) {
         this.list = list;
@@ -27,6 +29,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        this.context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_product, parent, false);
         return new ProductViewHolder(view);
@@ -34,8 +37,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+        String productQuantity = String.valueOf(list.get(position).getQuantity());
+        String stringQuantity = context.getResources().getString(R.string.product_quantity);
         holder.tvItemName.setText(list.get(position).getName());
-        holder.tvItemQuantity.setText(String.valueOf(list.get(position).getQuantity()));
+        holder.tvItemQuantity.setText(String.format(stringQuantity, productQuantity));
         holder.tvItemRate.setText(String.valueOf(list.get(position).getRate()));
         Glide.with(holder.itemView)
                 .load(list.get(position).getImage())
@@ -54,7 +59,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         notifyDataSetChanged();
     }
 
-    public class ProductViewHolder extends RecyclerView.ViewHolder {
+    public static class ProductViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivItem;
         TextView tvItemName;

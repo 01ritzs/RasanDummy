@@ -1,88 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/ivMenu"
+    <TextView
+        android:id="@+id/tvAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/imageSize"
-        android:src="@drawable/ic_menu"
-        app:layout_constraintBottom_toTopOf="@+id/rlSearchBar"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="@string/app_name"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_x_large"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/ivCart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/imageSize"
-        android:src="@drawable/ic_shopping_cart"
-        app:layout_constraintBottom_toTopOf="@id/rlSearchBar"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@+id/rlSearchBar"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/imageSize"
-        app:layout_constraintBottom_toTopOf="@id/rvProducts"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivCart">
+        android:layout_marginTop="@dimen/margin_large"
+        android:background="@drawable/rectangle_rounded"
+        android:paddingLeft="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_small"
+        android:paddingRight="@dimen/padding_medium"
+        android:paddingBottom="@dimen/margin_small"
+        app:layout_constraintLeft_toLeftOf="@id/tvAppName"
+        app:layout_constraintRight_toRightOf="@id/ivCart"
+        app:layout_constraintTop_toBottomOf="@+id/tvAppName">
 
         <EditText
             android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search "
-            android:padding="@dimen/imageSize"
-            android:background="@drawable/rounded_edittext"
-            />
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:hint="@string/search"
+            android:singleLine="true" />
 
         <ImageView
             android:id="@+id/ivSearchIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/imageSize"
-            android:src="@drawable/ic_search"
-            android:layout_alignEnd="@id/etSearch"
-            android:layout_alignRight="@id/etSearch" />
-
+            android:layout_alignRight="@id/etSearch"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_search" />
     </RelativeLayout>
-    <!--    <TextView-->
-    <!--        android:id="@+id/tvErrorMessage"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:drawableTop="@drawable/ic_sad"-->
-    <!--        android:drawablePadding="16dp"-->
-    <!--        android:text="@string/network"-->
-    <!--        android:textSize="@dimen/text_size_x_large"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--        app:layout_constraintRight_toRightOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <ImageView
+        android:id="@+id/ivCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:src="@drawable/ic_shopping_cart"
+        app:layout_constraintBottom_toBottomOf="@+id/tvAppName"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvAppName" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvProducts"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="1dp"
+        android:layout_marginTop="@dimen/margin_large"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/tvAppName"
+        app:layout_constraintRight_toRightOf="@id/ivCart"
         app:layout_constraintTop_toBottomOf="@+id/rlSearchBar" />
-
-    <!--    <ProgressBar-->
-    <!--        android:id="@+id/pbBackground"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--        app:layout_constraintRight_toRightOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
