@@ -1,4 +1,4 @@
-package com.du.de.rasandummy;
+package com.du.de.rasandummy.home;
 
 import android.app.Application;
 

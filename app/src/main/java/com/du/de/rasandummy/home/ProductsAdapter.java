@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.du.de.rasandummy.R;
+import com.du.de.rasandummy.RoomDatabase.Product;
 
 import java.util.List;
 
@@ -33,9 +34,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        holder.tvItemName.setText(list.get(position).name);
-        holder.tvItemQuantity.setText(String.valueOf(list.get(position).quantity));
-        holder.tvItemRate.setText(String.valueOf(list.get(position).rate));
+        holder.tvItemName.setText(list.get(position).getName());
+        holder.tvItemQuantity.setText(String.valueOf(list.get(position).getQuantity()));
+        holder.tvItemRate.setText(String.valueOf(list.get(position).getRate()));
         Glide.with(holder.itemView)
                 .load(list.get(position).getImage())
                 .centerCrop()

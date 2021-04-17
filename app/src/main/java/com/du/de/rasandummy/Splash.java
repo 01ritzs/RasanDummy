@@ -11,7 +11,7 @@ import com.du.de.rasandummy.home.HomeActivity;
 
 public class Splash extends AppCompatActivity {
 
-    private static int SPLASH_SCREEN_TIME_OUT = 2000;
+    private static final int SPLASH_SCREEN_TIME_OUT = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +22,7 @@ public class Splash extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                gotoNextScreen();
-            }
-        }, SPLASH_SCREEN_TIME_OUT);
+        new Handler().postDelayed(this::gotoNextScreen, SPLASH_SCREEN_TIME_OUT);
     }
 
     private void gotoNextScreen() {

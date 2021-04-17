@@ -1,9 +1,15 @@
-package com.du.de.rasandummy.home;
+package com.du.de.rasandummy.RoomDatabase;
+
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class Product {
 
+    @PrimaryKey(autoGenerate = true)
+    int id;
     @SerializedName("image")
     String image;
     @SerializedName("name")
@@ -13,14 +19,22 @@ public class Product {
     @SerializedName("rate")
     int rate;
 
-    public Product(String image, String name, int quantity, int rate) {
-        this.image = image;
+    public Product(String name, int quantity, int rate) {
         this.name = name;
         this.quantity = quantity;
         this.rate = rate;
     }
 
     public Product() {
+        
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getImage() {

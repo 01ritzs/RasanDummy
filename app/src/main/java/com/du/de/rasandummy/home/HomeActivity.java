@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.du.de.rasandummy.R;
+import com.du.de.rasandummy.RoomDatabase.Product;
+import com.du.de.rasandummy.RoomDatabase.RasanDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +24,7 @@ import java.util.List;
 
 public class HomeActivity extends Activity {
 
-    DatabaseReference databaseReference;
+    RasanDatabase rasanDatabase;
     List<Product> productList = new ArrayList<Product>();
     RecyclerView rvItems;
     ProductsAdapter adapter;
