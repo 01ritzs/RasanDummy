@@ -5,4 +5,6 @@
     <string name="cart_icon">Cart icon is for going to cart screen</string>
     <string name="product_quantity">(%1$s)</string>
     <string name="search">Search</string>
+    <string name="item_cart">Cart</string>
+    <string name="rs_">Rs. %1$s</string>
 </resources>

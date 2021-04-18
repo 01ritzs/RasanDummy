@@ -1,11 +1,10 @@
-package com.du.de.rasandummy.home;
+package com.du.de.rasandummy.cart;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,29 +16,30 @@ import com.du.de.rasandummy.RoomDatabase.Product;
 
 import java.util.List;
 
-public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ProductViewHolder> {
+public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapter.CartProductViewHolder> {
 
-    private final OnProductSelectListener listener;
+    private final OnCartProductSelectListener listener;
     private List<Product> list;
     private Context context;
 
-    public ProductsAdapter(List<Product> list, OnProductSelectListener listener) {
+    public CartProductsAdapter(List<Product> list, OnCartProductSelectListener listener) {
         this.list = list;
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CartProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_product, parent, false);
-        return new ProductViewHolder(view);
+        View view = inflater.inflate(R.layout.item_product_cart, parent, false);
+        return new CartProductViewHolder(view, listener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CartProductViewHolder holder, int position) {
         Product product = list.get(position);
+        holder.product = product;
         String productQuantity = String.valueOf(product.getQuantity());
         String productRate = String.valueOf(product.getRate());
         String stringQuantity = context.getResources().getString(R.string.product_quantity);
@@ -52,7 +52,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
                 .centerCrop()
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(holder.ivItem);
-        holder.parent.setOnClickListener(view -> listener.onSelected(product));
     }
 
     @Override
@@ -65,21 +64,28 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         notifyDataSetChanged();
     }
 
-    public static class ProductViewHolder extends RecyclerView.ViewHolder {
+    public static class CartProductViewHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout parent;
+        public Product product;
         ImageView ivItem;
+        ImageView ivAdd;
+        ImageView ivSubtract;
         TextView tvItemName;
+        TextView tvCount;
         TextView tvItemQuantity;
         TextView tvItemRate;
 
-        public ProductViewHolder(@NonNull View itemView) {
+        public CartProductViewHolder(@NonNull View itemView, OnCartProductSelectListener listener) {
             super(itemView);
-            parent = itemView.findViewById(R.id.parent);
             ivItem = itemView.findViewById(R.id.ivItem);
+            ivAdd = itemView.findViewById(R.id.ivAdd);
+            ivSubtract = itemView.findViewById(R.id.ivSubtract);
             tvItemName = itemView.findViewById(R.id.tvItemName);
+            tvCount = itemView.findViewById(R.id.tvCount);
             tvItemQuantity = itemView.findViewById(R.id.tvItemQuantity);
             tvItemRate = itemView.findViewById(R.id.tvItemRate);
+            ivAdd.setOnClickListener(view -> listener.onAdd(product));
+            ivSubtract.setOnClickListener(view -> listener.onSubtract(product));
         }
     }
 }
