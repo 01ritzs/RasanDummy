@@ -14,16 +14,19 @@ import com.bumptech.glide.Glide;
 import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.RoomDatabase.Product;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapter.CartProductViewHolder> {
 
     private final OnCartProductSelectListener listener;
-    private List<Product> list;
+    private LinkedHashMap<Product, Integer> map;
     private Context context;
 
-    public CartProductsAdapter(List<Product> list, OnCartProductSelectListener listener) {
-        this.list = list;
+    public CartProductsAdapter(LinkedHashMap<Product, Integer> map, OnCartProductSelectListener listener) {
+        this.map = map;
         this.listener = listener;
     }
 
@@ -38,7 +41,8 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CartProductViewHolder holder, int position) {
-        Product product = list.get(position);
+        Product product = (new ArrayList<>(map.keySet())).get(position);
+        int count = map.get(product);
         holder.product = product;
         String productQuantity = String.valueOf(product.getQuantity());
         String productRate = String.valueOf(product.getRate());
@@ -47,6 +51,7 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
         holder.tvItemName.setText(product.getName());
         holder.tvItemQuantity.setText(String.format(stringQuantity, productQuantity));
         holder.tvItemRate.setText(String.format(stringRate, productRate));
+        holder.tvCount.setText(String.valueOf(count));
         Glide.with(holder.itemView)
                 .load(product.getImage())
                 .centerCrop()
@@ -56,11 +61,11 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
 
     @Override
     public int getItemCount() {
-        return list == null ? 0 : list.size();
+        return map == null ? 0 : map.size();
     }
 
-    public void setList(List<Product> products) {
-        this.list = products;
+    public void setList(LinkedHashMap<Product, Integer> products) {
+        this.map = products;
         notifyDataSetChanged();
     }
 

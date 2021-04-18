@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/grey_light"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/grey_light">
 
     <TextView
         android:id="@+id/tvAppName"
@@ -54,12 +54,23 @@
         android:id="@+id/ivCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginRight="@dimen/margin_medium"
+        android:padding="@dimen/margin_medium"
         android:src="@drawable/ic_shopping_cart"
         app:layout_constraintBottom_toBottomOf="@+id/tvAppName"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvAppName" />
+
+    <TextView
+        android:id="@+id/tvCartBadge"
+        android:layout_width="@dimen/badge_size"
+        android:layout_height="@dimen/badge_size"
+        android:layout_margin="@dimen/margin_x_small"
+        android:background="@drawable/circle"
+        android:gravity="center"
+        android:padding="@dimen/padding_x_small"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvProducts"

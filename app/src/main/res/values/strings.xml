@@ -7,4 +7,5 @@
     <string name="search">Search</string>
     <string name="item_cart">Cart</string>
     <string name="rs_">Rs. %1$s</string>
+    <string name="added_to_cart">%1$s added to cart.</string>
 </resources>

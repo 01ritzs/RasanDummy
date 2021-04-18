@@ -11,7 +11,7 @@ import com.du.de.rasandummy.home.HomeActivity;
 
 public class Splash extends AppCompatActivity {
 
-    private static final int SPLASH_SCREEN_TIME_OUT = 2000;
+    private static final int SPLASH_SCREEN_TIME_OUT = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

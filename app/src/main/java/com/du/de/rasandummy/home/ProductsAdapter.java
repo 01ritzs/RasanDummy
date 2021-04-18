@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -52,7 +53,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
                 .centerCrop()
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(holder.ivItem);
-        holder.parent.setOnClickListener(view -> listener.onSelected(product));
+        holder.cvItemsDetails.setOnClickListener(view -> listener.onSelected(product));
     }
 
     @Override
@@ -67,7 +68,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout parent;
+        CardView cvItemsDetails;
+
         ImageView ivItem;
         TextView tvItemName;
         TextView tvItemQuantity;
@@ -75,7 +77,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-            parent = itemView.findViewById(R.id.parent);
+            cvItemsDetails = itemView.findViewById(R.id.cvItemsDetails);
             ivItem = itemView.findViewById(R.id.ivItem);
             tvItemName = itemView.findViewById(R.id.tvItemName);
             tvItemQuantity = itemView.findViewById(R.id.tvItemQuantity);

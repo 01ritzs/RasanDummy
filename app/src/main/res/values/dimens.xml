@@ -3,6 +3,7 @@
     <dimen name="ivItemHeight">120dp</dimen>
     <dimen name="spacing">10dp</dimen>
     <dimen name="imageSize">10dp</dimen>
+    <dimen name="padding_x_small">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
 
@@ -19,4 +20,5 @@
     <dimen name="product_item_height">100dp</dimen>
 
     <dimen name="depth">2dp</dimen>
+    <dimen name="badge_size">16dp</dimen>
 </resources>
