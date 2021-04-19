@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,8 @@ import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.RoomDatabase.Product;
 import com.du.de.rasandummy.cart.CartActivity;
 import com.du.de.rasandummy.util.AppData;
+import com.du.de.rasandummy.util.NetworkUtil;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,9 +36,11 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
 
     List<Product> productList = new ArrayList<>();
     RecyclerView rvItems;
-    ProductsAdapter adapter;
-    ImageView ivCart;
-    TextView tvCartBadge;
+    private ProductsAdapter adapter;
+    private ImageView ivCart;
+    private TextView tvCartBadge;
+    private RelativeLayout rvProgressBar;
+    private TextView tvErrorMessage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,24 +48,41 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
         setContentView(R.layout.activity_home);
         ivCart = findViewById(R.id.ivCart);
         tvCartBadge = findViewById(R.id.tvCartBadge);
+        rvProgressBar = findViewById(R.id.rvProgressBar);
+        tvErrorMessage = findViewById(R.id.tvErrorMessage);
+
         ivCart.setOnClickListener(view -> {
             startActivity(new Intent(HomeActivity.this, CartActivity.class));
         });
+        initFirebase();
         initRecyclerView();
+    }
 
+    private void initFirebase() {
+        if (NetworkUtil.isConnected(this)) {
+            setupFirebase();
+        } else {
+            Snackbar.make(findViewById(android.R.id.content),
+                    getResources().getString(R.string.no_internet),
+                    Snackbar.LENGTH_INDEFINITE).setAction(getResources().getString(R.string.retry),
+                    v -> initFirebase()).show();
+            updateErrorStatus(productList);
+        }
     }
 
     private void setupFirebase() {
+        rvProgressBar.setVisibility(View.VISIBLE);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("products");
-
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                rvProgressBar.setVisibility(View.GONE);
                 GenericTypeIndicator<ArrayList<Product>> gti = new GenericTypeIndicator<ArrayList<Product>>() {
                 };
                 // Fetch products from snapshot
-                ArrayList<Product> products = snapshot.getValue(gti);
+                List<Product> products = snapshot.getValue(gti);
+                updateErrorStatus(products);
                 // Populate product list
                 productList.addAll(products);
                 // Save product list in app data
@@ -71,22 +94,25 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("On Cancelled", "There is no data");
+                tvErrorMessage.setVisibility(View.VISIBLE);
             }
         });
+    }
 
+    private void updateErrorStatus(List<Product> products) {
+        if (products.size() > 0) {
+            tvErrorMessage.setVisibility(View.GONE);
+        } else {
+            tvErrorMessage.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initRecyclerView() {
         rvItems = findViewById(R.id.rvProducts);
         rvItems.setHasFixedSize(true);
         rvItems.setLayoutManager(new GridLayoutManager(this, 1));
-        initFirebase();
         adapter = new ProductsAdapter(productList, this);
         rvItems.setAdapter(adapter);
-    }
-
-    private void initFirebase() {
-        setupFirebase();
     }
 
     @Override

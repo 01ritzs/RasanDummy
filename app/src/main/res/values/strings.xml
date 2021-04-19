@@ -8,4 +8,9 @@
     <string name="item_cart">Cart</string>
     <string name="rs_">Rs. %1$s</string>
     <string name="added_to_cart">%1$s added to cart.</string>
+    <string name="no_internet">No Internet</string>
+    <string name="retry">Retry</string>
+    <string name="no_data_to_show">No data to show</string>
+    <string name="total">Total : %1$s</string>
+    <string name="no_item_added_in_cart">No item added in cart</string>
 </resources>

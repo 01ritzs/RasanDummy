@@ -4,6 +4,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.RoomDatabase.Product;
 import com.du.de.rasandummy.util.AppData;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class CartActivity extends AppCompatActivity implements OnCartProductSelectListener {
@@ -22,22 +24,35 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
     RecyclerView rvItems;
     CartProductsAdapter adapter;
     ImageView ivback;
+    TextView tvErrorMessage;
+    private HashMap<Product, Integer> selectedProducts;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        tvErrorMessage = findViewById(R.id.tvErrorMessage);
         ivback = findViewById(R.id.ivBack);
         ivback.setOnClickListener(view -> onBackPressed());
         initRecyclerView();
+        updateErrorStatus();
     }
 
     private void initRecyclerView() {
         rvItems = findViewById(R.id.rvCart);
         rvItems.setHasFixedSize(true);
         rvItems.setLayoutManager(new GridLayoutManager(this, 1));
-        adapter = new CartProductsAdapter(AppData.getInstance().getSelectedProduct(), this);
+        selectedProducts = AppData.getInstance().getSelectedProduct();
+        adapter = new CartProductsAdapter(selectedProducts, this);
         rvItems.setAdapter(adapter);
+    }
+
+    private void updateErrorStatus() {
+        if (selectedProducts != null && selectedProducts.size() > 0) {
+            tvErrorMessage.setVisibility(View.GONE);
+        } else {
+            tvErrorMessage.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

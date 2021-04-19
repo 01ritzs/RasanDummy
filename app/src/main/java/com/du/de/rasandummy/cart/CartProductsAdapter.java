@@ -15,6 +15,7 @@ import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.RoomDatabase.Product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +23,10 @@ import java.util.Map;
 public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapter.CartProductViewHolder> {
 
     private final OnCartProductSelectListener listener;
-    private LinkedHashMap<Product, Integer> map;
+    private HashMap<Product, Integer> map;
     private Context context;
 
-    public CartProductsAdapter(LinkedHashMap<Product, Integer> map, OnCartProductSelectListener listener) {
+    public CartProductsAdapter(HashMap<Product, Integer> map, OnCartProductSelectListener listener) {
         this.map = map;
         this.listener = listener;
     }
