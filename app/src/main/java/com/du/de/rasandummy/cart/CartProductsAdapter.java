@@ -73,13 +73,13 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
     public static class CartProductViewHolder extends RecyclerView.ViewHolder {
 
         public Product product;
-        ImageView ivItem;
-        ImageView ivAdd;
-        ImageView ivSubtract;
-        TextView tvItemName;
-        TextView tvCount;
-        TextView tvItemQuantity;
-        TextView tvItemRate;
+        public ImageView ivItem;
+        public ImageView ivAdd;
+        public ImageView ivSubtract;
+        public TextView tvItemName;
+        public TextView tvCount;
+        public TextView tvItemQuantity;
+        public TextView tvItemRate;
 
         public CartProductViewHolder(@NonNull View itemView, OnCartProductSelectListener listener) {
             super(itemView);

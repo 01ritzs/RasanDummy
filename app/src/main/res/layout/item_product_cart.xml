@@ -15,6 +15,7 @@
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginRight="@dimen/margin_small"
         android:background="@color/white"
+        android:backgroundTint="@color/white"
         android:padding="@dimen/padding_medium"
         app:cardCornerRadius="5dp">
 

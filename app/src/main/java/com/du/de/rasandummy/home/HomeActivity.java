@@ -2,11 +2,18 @@ package com.du.de.rasandummy.home;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +28,7 @@ import com.du.de.rasandummy.RoomDatabase.Product;
 import com.du.de.rasandummy.cart.CartActivity;
 import com.du.de.rasandummy.util.AppData;
 import com.du.de.rasandummy.util.NetworkUtil;
+import com.du.de.rasandummy.util.ProductUtil;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,11 +44,12 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
 
     List<Product> productList = new ArrayList<>();
     RecyclerView rvItems;
-    private ProductsAdapter adapter;
+    private ProductsAdapter productsAdapter;
     private ImageView ivCart;
     private TextView tvCartBadge;
     private RelativeLayout rvProgressBar;
     private TextView tvErrorMessage;
+    private EditText etSearch;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,12 +59,18 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
         tvCartBadge = findViewById(R.id.tvCartBadge);
         rvProgressBar = findViewById(R.id.rvProgressBar);
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
-
-        ivCart.setOnClickListener(view -> {
-            startActivity(new Intent(HomeActivity.this, CartActivity.class));
-        });
+        etSearch = findViewById(R.id.etSearch);
+        ivCart.setOnClickListener(view ->
+                startActivity(new Intent(HomeActivity.this, CartActivity.class))
+        );
         initFirebase();
         initRecyclerView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateBadge();
     }
 
     private void initFirebase() {
@@ -88,13 +103,31 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
                 // Save product list in app data
                 AppData.getInstance().setProducts(products);
                 // Populate product list
-                adapter.setList(productList);
+                productsAdapter.setList(productList);
+                initSearch(productList);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("On Cancelled", "There is no data");
                 tvErrorMessage.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void initSearch(final List<Product> productList) {
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                productsAdapter.setList(ProductUtil.sort(productList, charSequence.toString()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
             }
         });
     }
@@ -111,8 +144,8 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
         rvItems = findViewById(R.id.rvProducts);
         rvItems.setHasFixedSize(true);
         rvItems.setLayoutManager(new GridLayoutManager(this, 1));
-        adapter = new ProductsAdapter(productList, this);
-        rvItems.setAdapter(adapter);
+        productsAdapter = new ProductsAdapter(productList, this);
+        rvItems.setAdapter(productsAdapter);
     }
 
     @Override

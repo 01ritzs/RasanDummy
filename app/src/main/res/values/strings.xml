@@ -11,6 +11,10 @@
     <string name="no_internet">No Internet</string>
     <string name="retry">Retry</string>
     <string name="no_data_to_show">No data to show</string>
-    <string name="total">Total : %1$s</string>
+    <string name="total">Total: %1$d</string>
     <string name="no_item_added_in_cart">No item added in cart</string>
+    <string name="list_is_prepared">List is prepared from Rasan Dummy App. </string>
+    <string name="app_link">https://play.google.com/store/apps/details?id=com.du.de.rasandummy</string>
+    <string name="share">Share</string>
+    <string name="share_using">Share using ...</string>
 </resources>

@@ -6,6 +6,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvItemsDetails"
+        android:backgroundTint="@color/white"
         android:layout_width="match_parent"
         android:layout_height="@dimen/product_item_height"
         android:layout_margin="@dimen/margin_small"
