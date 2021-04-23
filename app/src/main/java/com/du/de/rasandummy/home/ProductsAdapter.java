@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.du.de.rasandummy.R;
-import com.du.de.rasandummy.RoomDatabase.Product;
+import com.du.de.rasandummy.db.Product;
 
 import java.util.List;
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rasan Dummy</string>
+    <string name="app_name">Grocery List Dummy</string>
     <string name="network">Something went wrong.</string>
     <string name="improve">Improve this icon further.</string>
     <string name="cart_icon">Cart icon is for going to cart screen</string>

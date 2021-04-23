@@ -12,10 +12,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.du.de.rasandummy.R;
-import com.du.de.rasandummy.RoomDatabase.Product;
+import com.du.de.rasandummy.db.Product;
 import com.du.de.rasandummy.util.AppData;
 import com.du.de.rasandummy.util.ProductUtil;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.HashMap;
@@ -42,12 +41,7 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         fabShare = findViewById(R.id.fabShare);
         ivBack.setOnClickListener(view -> onBackPressed());
         selectedProducts = AppData.getInstance().getSelectedProduct();
-        fabShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                shareGroceryList(selectedProducts);
-            }
-        });
+        fabShare.setOnClickListener(view -> shareGroceryList(selectedProducts));
         fabShare.setOnClickListener(view -> shareGroceryList(selectedProducts));
         setTotal(selectedProducts);
         initRecyclerView(selectedProducts);

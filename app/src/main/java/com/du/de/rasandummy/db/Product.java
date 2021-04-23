@@ -1,4 +1,4 @@
-package com.du.de.rasandummy.RoomDatabase;
+package com.du.de.rasandummy.db;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

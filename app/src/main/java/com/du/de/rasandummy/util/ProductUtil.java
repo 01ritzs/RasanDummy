@@ -3,11 +3,9 @@ package com.du.de.rasandummy.util;
 
 import android.text.SpannableStringBuilder;
 
-import com.du.de.rasandummy.RoomDatabase.Product;
+import com.du.de.rasandummy.db.Product;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
