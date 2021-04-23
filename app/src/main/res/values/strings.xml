@@ -17,4 +17,5 @@
     <string name="app_link">https://play.google.com/store/apps/details?id=com.du.de.rasandummy</string>
     <string name="share">Share</string>
     <string name="share_using">Share using ...</string>
+    <string name="interstitial_app_unit_id">\" ca-app-pub-3940256099942544/1033173712\"</string>
 </resources>

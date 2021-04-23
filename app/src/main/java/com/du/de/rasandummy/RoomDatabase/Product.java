@@ -15,18 +15,18 @@ public class Product {
     @SerializedName("name")
     String name;
     @SerializedName("quantity")
-    int quantity;
+    String quantity;
     @SerializedName("rate")
-    int rate;
+    String rate;
 
-    public Product(String name, int quantity, int rate) {
+    public Product(String name, String quantity, String rate) {
         this.name = name;
         this.quantity = quantity;
         this.rate = rate;
     }
 
     public Product() {
-        
+
     }
 
     public int getId() {
@@ -53,19 +53,19 @@ public class Product {
         this.name = name;
     }
 
-    public int getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 
-    public int getRate() {
+    public String getRate() {
         return rate;
     }
 
-    public void setRate(int rate) {
+    public void setRate(String rate) {
         this.rate = rate;
     }
 }

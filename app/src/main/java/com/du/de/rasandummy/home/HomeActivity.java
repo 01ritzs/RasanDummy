@@ -2,16 +2,11 @@ package com.du.de.rasandummy.home;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,6 +24,14 @@ import com.du.de.rasandummy.cart.CartActivity;
 import com.du.de.rasandummy.util.AppData;
 import com.du.de.rasandummy.util.NetworkUtil;
 import com.du.de.rasandummy.util.ProductUtil;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,6 +45,8 @@ import java.util.List;
 
 public class HomeActivity extends Activity implements OnProductSelectListener {
 
+    private static final String TAG = HomeActivity.class.getName();
+
     List<Product> productList = new ArrayList<>();
     RecyclerView rvItems;
     private ProductsAdapter productsAdapter;
@@ -50,6 +55,8 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
     private RelativeLayout rvProgressBar;
     private TextView tvErrorMessage;
     private EditText etSearch;
+    private AdView adView;
+    private InterstitialAd interstitialAd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,17 +67,79 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
         rvProgressBar = findViewById(R.id.rvProgressBar);
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         etSearch = findViewById(R.id.etSearch);
-        ivCart.setOnClickListener(view ->
-                startActivity(new Intent(HomeActivity.this, CartActivity.class))
-        );
+        adView = findViewById(R.id.adView);
+        initBannerAds();
+        initInterstitialAds();
+
+        ivCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, CartActivity.class));
+                initInterstitialAds();
+                initShowAds();
+            }
+        });
         initFirebase();
         initRecyclerView();
     }
+
+    private void initShowAds() {
+        if (interstitialAd != null) {
+            interstitialAd.show(HomeActivity.this);
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.");
+        }
+    }
+
+    private void initBannerAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
+
+    private void initInterstitialAds() {
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+            }
+        });
+        AdRequest adRequest = new AdRequest.Builder().build();
+        InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest, new InterstitialAdLoadCallback() {
+            @Override
+            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                HomeActivity.this.interstitialAd = interstitialAd;
+                Log.i(TAG, "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                Log.i(TAG, loadAdError.getMessage());
+                HomeActivity.this.interstitialAd = null;
+            }
+        });
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
         updateBadge();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        if (adView != null) {
+            adView.destroy();
+        }
+    }
+
+    public void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
     }
 
     private void initFirebase() {

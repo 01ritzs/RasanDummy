@@ -2,7 +2,6 @@ package com.du.de.rasandummy.cart;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +15,7 @@ import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.RoomDatabase.Product;
 import com.du.de.rasandummy.util.AppData;
 import com.du.de.rasandummy.util.ProductUtil;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.HashMap;
@@ -42,6 +42,12 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         fabShare = findViewById(R.id.fabShare);
         ivBack.setOnClickListener(view -> onBackPressed());
         selectedProducts = AppData.getInstance().getSelectedProduct();
+        fabShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareGroceryList(selectedProducts);
+            }
+        });
         fabShare.setOnClickListener(view -> shareGroceryList(selectedProducts));
         setTotal(selectedProducts);
         initRecyclerView(selectedProducts);
@@ -102,7 +108,7 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         for (Map.Entry<Product, Integer> entry : selectedProducts.entrySet()) {
             Product product = entry.getKey();
             int count = entry.getValue();
-            int itemCost = product.getRate() * count;
+            int itemCost = Integer.parseInt(product.getRate()) * count;
             total += itemCost;
         }
         return total;

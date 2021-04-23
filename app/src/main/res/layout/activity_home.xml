@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +16,8 @@
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_x_large"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/margin_medium" />
 
     <RelativeLayout
         android:id="@+id/rlSearchBar"
@@ -28,7 +30,8 @@
         android:paddingRight="@dimen/padding_medium"
         app:layout_constraintLeft_toLeftOf="@id/tvAppName"
         app:layout_constraintRight_toRightOf="@id/ivCart"
-        app:layout_constraintTop_toBottomOf="@+id/tvAppName">
+        app:layout_constraintTop_toBottomOf="@+id/tvAppName"
+        android:paddingStart="@dimen/margin_medium">
 
         <ImageView
             android:id="@+id/ivSearchIcon"
@@ -45,7 +48,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_small"
             android:layout_toRightOf="@id/ivSearchIcon"
-            android:textColorHint="@color/grey"
             android:background="@null"
             android:hint="@string/search"
             android:imeOptions="actionDone"
@@ -53,7 +55,8 @@
             android:maxLength="36"
             android:padding="@dimen/padding_small"
             android:singleLine="true"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey" />
     </RelativeLayout>
 
     <ImageView
@@ -84,7 +87,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/margin_large"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/adView"
         app:layout_constraintLeft_toLeftOf="@id/tvAppName"
         app:layout_constraintRight_toRightOf="@id/ivCart"
         app:layout_constraintTop_toBottomOf="@+id/rlSearchBar" />
@@ -119,4 +122,18 @@
         app:layout_constraintLeft_toLeftOf="@id/tvAppName"
         app:layout_constraintRight_toRightOf="@id/ivCart"
         app:layout_constraintTop_toBottomOf="@+id/rlSearchBar" />
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvProducts">
+
+    </com.google.android.gms.ads.AdView>
 </androidx.constraintlayout.widget.ConstraintLayout>
