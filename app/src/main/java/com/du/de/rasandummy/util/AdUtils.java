@@ -5,6 +5,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.du.de.rasandummy.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
@@ -13,8 +14,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 public class AdUtils {
-
-    public static final String AD_INTERSTITIAL_ID = "ca-app-pub-3940256099942544/1033173712";
 
     public static AdUtils instance;
     private static boolean isMobileAddInitialized = false;
@@ -59,7 +58,8 @@ public class AdUtils {
      */
     public void loadInterstitial(Context context) {
         if (isMobileAddInitialized) {
-            InterstitialAd.load(context, AD_INTERSTITIAL_ID, adRequest, new InterstitialAdLoadCallback() {
+            String adInterstitialId = context.getResources().getString(R.string.interstitial_id);
+            InterstitialAd.load(context, adInterstitialId, adRequest, new InterstitialAdLoadCallback() {
                 @Override
                 public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                     adInterstitial = interstitialAd;

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.db.Product;
+import com.du.de.rasandummy.util.AdUtils;
 import com.du.de.rasandummy.util.AppData;
 import com.du.de.rasandummy.util.ProductUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,7 +42,13 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         fabShare = findViewById(R.id.fabShare);
         ivBack.setOnClickListener(view -> onBackPressed());
         selectedProducts = AppData.getInstance().getSelectedProduct();
-        fabShare.setOnClickListener(view -> shareGroceryList(selectedProducts));
+        fabShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AdUtils.instance.showInterstitialAd(CartActivity.this);
+                shareGroceryList(selectedProducts);
+            }
+        });
         fabShare.setOnClickListener(view -> shareGroceryList(selectedProducts));
         setTotal(selectedProducts);
         initRecyclerView(selectedProducts);

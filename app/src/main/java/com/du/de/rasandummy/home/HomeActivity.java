@@ -45,7 +45,6 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
     RecyclerView rvItems;
     private ProductsAdapter productsAdapter;
     private ImageView ivCart;
-    private TextView tvCartBadge;
     private RelativeLayout rvProgressBar;
     private TextView tvErrorMessage;
     private EditText etSearch;
@@ -57,15 +56,10 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ivCart = findViewById(R.id.ivCart);
-        tvCartBadge = findViewById(R.id.tvCartBadge);
         rvProgressBar = findViewById(R.id.rvProgressBar);
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         etSearch = findViewById(R.id.etSearch);
         adView = findViewById(R.id.adView);
-        AdUtils.getInstance().loadBannerAd(adView);
-//        initBannerAds();
-//        initInterstitialAds();
-
         ivCart.setOnClickListener(view -> {
             gotoNextScreen();
             AdUtils.getInstance().showInterstitialAd(this);
@@ -76,43 +70,7 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
 
     private void gotoNextScreen() {
         startActivity(new Intent(this, CartActivity.class));
-//        initInterstitialAds();
-//        initShowAds();
     }
-
-    /*private void initShowAds() {
-        if (interstitialAd != null) {
-            interstitialAd.show(HomeActivity.this);
-        } else {
-            Log.d("TAG", "The interstitial ad wasn't ready yet.");
-        }
-    }*/
-
-    /*private void initBannerAds() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-    }*/
-
-    /*private void initInterstitialAds() {
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
-            }
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-        InterstitialAd.load(this, Constants.AD_INTERSTITIAL_ID, adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                HomeActivity.this.interstitialAd = interstitialAd;
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                HomeActivity.this.interstitialAd = null;
-            }
-        });
-    }*/
-
 
     @Override
     protected void onResume() {
@@ -120,20 +78,6 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
         updateBadge();
         AdUtils.getInstance().loadInterstitial(this);
     }
-/*
-    protected void onDestroy() {
-        super.onDestroy();
-        if (adView != null) {
-            adView.destroy();
-        }
-    }
-
-    public void onPause() {
-        if (adView != null) {
-            adView.pause();
-        }
-        super.onPause();
-    }*/
 
     private void initFirebase() {
         if (NetworkUtil.isConnected(this)) {
@@ -150,7 +94,7 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
     private void setupFirebase() {
         rvProgressBar.setVisibility(View.VISIBLE);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("products");
+        DatabaseReference myRef = database.getReference("product");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -223,9 +167,9 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
     private void updateBadge() {
         int selectedItemCount = AppData.getInstance().getSelectedProduct().size();
         if (selectedItemCount > 0) {
-            tvCartBadge.setVisibility(View.VISIBLE);
+            ivCart.setColorFilter(getResources().getColor(R.color.red));
         } else {
-            tvCartBadge.setVisibility(View.INVISIBLE);
+            ivCart.setColorFilter(getResources().getColor(R.color.grey_dark));
         }
     }
 }

@@ -1,12 +1,24 @@
 <resources>
     <string name="app_name">Grocery List Dummy</string>
+
+    <!--Ad ids prod-->
+    <string name="app_id">ca-app-pub-2470009188593139~3458228581</string>
+    <string name="banner_id">ca-app-pub-2470009188593139/9668413710</string>
+    <string name="interstitial_id">ca-app-pub-2470009188593139/7545631495</string>
+
+    <!--Ad ids test-->
+<!--    <string name="app_id">ca-app-pub-3940256099942544~3347511713</string>-->
+<!--    <string name="banner_id">ca-app-pub-3940256099942544/6300978111</string>-->
+<!--    <string name="interstitial_id">ca-app-pub-3940256099942544/1033173712</string>-->
+
+    <string name="app_link">https://play.google.com/store/apps/details?id=com.du.de.rasandummy</string>
     <string name="network">Something went wrong.</string>
     <string name="improve">Improve this icon further.</string>
     <string name="cart_icon">Cart icon is for going to cart screen</string>
     <string name="product_quantity">(%1$s)</string>
     <string name="search">Search</string>
     <string name="item_cart">Cart</string>
-    <string name="rs_">Rs. %1$s</string>
+    <string name="rs_">₹ %1$s</string>
     <string name="added_to_cart">%1$s added to cart.</string>
     <string name="no_internet">No Internet</string>
     <string name="retry">Retry</string>
@@ -14,8 +26,6 @@
     <string name="total">Total: %1$d</string>
     <string name="no_item_added_in_cart">No item added in cart</string>
     <string name="list_is_prepared">List is prepared from Rasan Dummy App. </string>
-    <string name="app_link">https://play.google.com/store/apps/details?id=com.du.de.rasandummy</string>
     <string name="share">Share</string>
     <string name="share_using">Share using ...</string>
-    <string name="interstitial_app_unit_id">\" ca-app-pub-3940256099942544/1033173712\"</string>
 </resources>
