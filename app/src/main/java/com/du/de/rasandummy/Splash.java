@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.du.de.rasandummy.ItemFragment.ItemViewPager;
+import com.du.de.rasandummy.ItemFragment.SecondActivity;
 
 public class Splash extends AppCompatActivity {
 
@@ -26,7 +26,7 @@ public class Splash extends AppCompatActivity {
     }
 
     private void gotoNextScreen() {
-        Intent intent = new Intent(this, ItemViewPager.class);
+        Intent intent = new Intent(this, SecondActivity.class);
         startActivity(intent);
         finish();
     }
