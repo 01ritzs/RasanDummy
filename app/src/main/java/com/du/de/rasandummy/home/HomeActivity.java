@@ -94,7 +94,7 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
     private void setupFirebase() {
         rvProgressBar.setVisibility(View.VISIBLE);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("product");
+        DatabaseReference myRef = database.getReference("products");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

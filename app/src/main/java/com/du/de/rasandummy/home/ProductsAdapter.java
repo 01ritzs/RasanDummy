@@ -49,7 +49,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         holder.tvItemRate.setText(String.format(stringRate, productRate));
         Glide.with(holder.itemView)
                 .load(product.getImage())
-                .placeholder(R.drawable.ic_default)
                 .into(holder.ivItem);
         holder.cvItemsDetails.setOnClickListener(view -> listener.onSelected(product));
     }

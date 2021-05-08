@@ -54,7 +54,6 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
         Glide.with(holder.itemView)
                 .load(product.getImage())
                 .centerCrop()
-                .placeholder(R.drawable.ic_default)
                 .into(holder.ivItem);
     }
 

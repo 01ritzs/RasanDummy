@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Grocery List Dummy</string>
+    <string name="app_name">Rasan Dummy</string>
 
     <!--Ad ids prod-->
     <string name="app_id">ca-app-pub-2470009188593139~3458228581</string>
@@ -7,9 +7,9 @@
     <string name="interstitial_id">ca-app-pub-2470009188593139/7545631495</string>
 
     <!--Ad ids test-->
-<!--    <string name="app_id">ca-app-pub-3940256099942544~3347511713</string>-->
-<!--    <string name="banner_id">ca-app-pub-3940256099942544/6300978111</string>-->
-<!--    <string name="interstitial_id">ca-app-pub-3940256099942544/1033173712</string>-->
+    <!--    <string name="app_id">ca-app-pub-3940256099942544~3347511713</string>-->
+    <!--    <string name="banner_id">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--    <string name="interstitial_id">ca-app-pub-3940256099942544/1033173712</string>-->
 
     <string name="app_link">https://play.google.com/store/apps/details?id=com.du.de.rasandummy</string>
     <string name="network">Something went wrong.</string>

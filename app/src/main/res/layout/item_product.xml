@@ -63,7 +63,6 @@
                 android:id="@+id/ivItem"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/item_image_height"
-                android:src="@drawable/ic_default"
                 android:scaleType="fitCenter"
                 android:layout_marginRight="@dimen/margin_medium"
                 app:layout_constraintBottom_toBottomOf="parent"
