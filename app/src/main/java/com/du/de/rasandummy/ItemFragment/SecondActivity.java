@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.du.de.rasandummy.R;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SecondActivity extends AppCompatActivity {
+
+    RecyclerView rvItemsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

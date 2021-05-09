@@ -2,6 +2,6 @@ package com.du.de.rasandummy.home;
 
 import com.du.de.rasandummy.db.Product;
 
-interface OnProductSelectListener {
+public interface OnProductSelectListener {
     void onSelected(Product product);
 }
