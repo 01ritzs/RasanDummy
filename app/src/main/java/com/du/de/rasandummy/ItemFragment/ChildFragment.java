@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,26 +16,18 @@ import com.du.de.rasandummy.db.Product;
 import com.du.de.rasandummy.home.OnProductSelectListener;
 import com.du.de.rasandummy.home.ProductsAdapter;
 import com.du.de.rasandummy.util.AppData;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChildFragment extends Fragment implements OnProductSelectListener {
 
-    List<Product> productList = new ArrayList<>();
-    private final String message;
+    List<Product> products;
     private RecyclerView rvItemsList;
     public View rootView;
     private ProductsAdapter productsAdapter;
 
-    public ChildFragment(String message) {
-        this.message = message;
+    public ChildFragment(List<Product> products) {
+        this.products = products;
     }
 
     @Nullable
@@ -45,36 +36,14 @@ public class ChildFragment extends Fragment implements OnProductSelectListener {
         super.onCreateView(inflater, container, saveInstanceState);
         rootView = inflater.inflate(R.layout.fragment_child, null);
         initRecyclerView();
-        initFirebase();
         return rootView;
-    }
-
-    private void initFirebase() {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference("products");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                GenericTypeIndicator<ArrayList<Product>> gti = new GenericTypeIndicator<ArrayList<Product>>() {
-                };
-                List<Product> products = snapshot.getValue(gti);
-                productList.addAll(products);
-                AppData.getInstance().setProducts(products);
-                productsAdapter.setList(productList);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     private void initRecyclerView() {
         rvItemsList = rootView.findViewById(R.id.rvItemsList);
         rvItemsList.setHasFixedSize(true);
-        rvItemsList.setLayoutManager(new GridLayoutManager(this.getActivity(), 1));
-        productsAdapter = new ProductsAdapter(productList, this);
+        rvItemsList.setLayoutManager(new GridLayoutManager(this.getActivity(), 2));
+        productsAdapter = new ProductsAdapter(products, this);
         rvItemsList.setAdapter(productsAdapter);
     }
 

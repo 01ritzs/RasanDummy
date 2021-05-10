@@ -5,21 +5,23 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.du.de.rasandummy.db.Category;
+
 import java.util.List;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    private final List<Fragment> list;
+    private final List<Category> list;
 
-    public ViewPagerAdapter(FragmentManager supportFragmentManager, List<Fragment> listFragment) {
+    public ViewPagerAdapter(FragmentManager supportFragmentManager, List<Category> categories) {
         super(supportFragmentManager);
-        this.list = listFragment;
+        this.list = categories;
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return list.get(position);
+        return new ChildFragment(list.get(position).getProducts());
     }
 
     @Override
@@ -29,7 +31,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        String title = getItem(position).getClass().getName();
-        return title.subSequence(title.lastIndexOf(".") + 1, title.length());
+        return list.get(position).getTitle();
     }
 }

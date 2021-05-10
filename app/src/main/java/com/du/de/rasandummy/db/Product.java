@@ -19,7 +19,8 @@ public class Product {
     @SerializedName("rate")
     String rate;
 
-    public Product(String name, String quantity, String rate) {
+    public Product(String image, String name, String quantity, String rate) {
+        this.image = image;
         this.name = name;
         this.quantity = quantity;
         this.rate = rate;

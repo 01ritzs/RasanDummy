@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.du.de.rasandummy.ItemFragment.SecondActivity;
+import com.du.de.rasandummy.home.HomeActivity;
 
 public class Splash extends AppCompatActivity {
 
@@ -26,7 +26,7 @@ public class Splash extends AppCompatActivity {
     }
 
     private void gotoNextScreen() {
-        Intent intent = new Intent(this, SecondActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
     }

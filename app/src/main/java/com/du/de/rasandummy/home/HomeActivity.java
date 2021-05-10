@@ -1,6 +1,5 @@
 package com.du.de.rasandummy.home;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,18 +14,22 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import com.du.de.rasandummy.ItemFragment.ViewPagerAdapter;
 import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.cart.CartActivity;
+import com.du.de.rasandummy.db.Category;
 import com.du.de.rasandummy.db.Product;
 import com.du.de.rasandummy.util.AdUtils;
 import com.du.de.rasandummy.util.AppData;
+import com.du.de.rasandummy.util.Constants;
 import com.du.de.rasandummy.util.NetworkUtil;
-import com.du.de.rasandummy.util.ProductUtil;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,19 +40,21 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends Activity implements OnProductSelectListener {
+public class HomeActivity extends AppCompatActivity implements OnProductSelectListener {
 
     private static final String TAG = HomeActivity.class.getName();
 
     List<Product> productList = new ArrayList<>();
-    RecyclerView rvItems;
-    private ProductsAdapter productsAdapter;
+    RecyclerView rvItemsList;
+    //    private ProductsAdapter productsAdapter;
     private ImageView ivCart;
     private RelativeLayout rvProgressBar;
     private TextView tvErrorMessage;
     private EditText etSearch;
     private AdView adView;
+    private ViewPager viewPager;
 //    private InterstitialAd interstitialAd;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,13 +65,21 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         etSearch = findViewById(R.id.etSearch);
         adView = findViewById(R.id.adView);
+        viewPager = findViewById(R.id.vp);
         ivCart.setOnClickListener(view -> {
             gotoNextScreen();
+            AdUtils.getInstance().loadBannerAd(adView);
             AdUtils.getInstance().showInterstitialAd(this);
         });
         initFirebase();
-        initRecyclerView();
     }
+
+    private void initViewPager(List<Category> categories) {
+        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), categories));
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
 
     private void gotoNextScreen() {
         startActivity(new Intent(this, CartActivity.class));
@@ -94,23 +107,24 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
     private void setupFirebase() {
         rvProgressBar.setVisibility(View.VISIBLE);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("products");
+        DatabaseReference myRef = database.getReference(Constants.FIREBASE_DB_NAME);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 rvProgressBar.setVisibility(View.GONE);
-                GenericTypeIndicator<ArrayList<Product>> gti = new GenericTypeIndicator<ArrayList<Product>>() {
+                GenericTypeIndicator<ArrayList<Category>> gti = new GenericTypeIndicator<ArrayList<Category>>() {
                 };
                 // Fetch products from snapshot
-                List<Product> products = snapshot.getValue(gti);
-                updateErrorStatus(products);
+                List<Category> categories = snapshot.getValue(gti);
+//                updateErrorStatus(products);
                 // Populate product list
-                productList.addAll(products);
+//                productList.addAll(categories);
                 // Save product list in app data
-                AppData.getInstance().setProducts(products);
+                AppData.getInstance().setCategories(categories);
                 // Populate product list
-                productsAdapter.setList(productList);
-                initSearch(productList);
+//                productsAdapter.setList(productList);
+//                initSearch(productList);
+                initViewPager(categories);
             }
 
             @Override
@@ -129,7 +143,7 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                productsAdapter.setList(ProductUtil.sort(productList, charSequence.toString()));
+//                productsAdapter.setList(ProductUtil.sort(productList, charSequence.toString()));
             }
 
             @Override
@@ -146,13 +160,13 @@ public class HomeActivity extends Activity implements OnProductSelectListener {
         }
     }
 
-    private void initRecyclerView() {
-        rvItems = findViewById(R.id.rvProducts);
-        rvItems.setHasFixedSize(true);
-        rvItems.setLayoutManager(new GridLayoutManager(this, 1));
+   /* private void initRecyclerView() {
+        rvItemsList = rootView.findViewById(R.id.rvItemsList);
+        rvItemsList.setHasFixedSize(true);
+        rvItemsList.setLayoutManager(new GridLayoutManager(this, 1));
         productsAdapter = new ProductsAdapter(productList, this);
-        rvItems.setAdapter(productsAdapter);
-    }
+        rvItemsList.setAdapter(productsAdapter);
+    }*/
 
     @Override
     public void onSelected(Product product) {

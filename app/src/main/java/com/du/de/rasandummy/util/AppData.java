@@ -2,6 +2,7 @@ package com.du.de.rasandummy.util;
 
 import android.app.Activity;
 
+import com.du.de.rasandummy.db.Category;
 import com.du.de.rasandummy.db.Product;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class AppData extends Activity {
 
     private static AppData appData = new AppData();
 
-    private List<Product> products = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
     private LinkedHashMap<Product, Integer> selectedProduct = new LinkedHashMap<>();
 
     private AppData() {
@@ -22,12 +23,12 @@ public class AppData extends Activity {
         return appData;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public LinkedHashMap<Product, Integer> getSelectedProduct() {

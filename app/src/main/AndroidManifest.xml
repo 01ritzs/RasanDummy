@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RasanDummy">
         <activity android:name=".home.HomeActivity" />
-        <activity android:name=".ItemFragment.SecondActivity" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/app_id" />
