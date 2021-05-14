@@ -45,18 +45,18 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         String stringQuantity = context.getResources().getString(R.string.product_quantity);
         String stringRate = context.getResources().getString(R.string.rs_);
         holder.tvItemName.setText(product.getName().trim());
-        holder.tvItemRate.setText(String.format(stringRate, productRate));
+        if (!product.getRate().equals("")) {
+            holder.tvItemRate.setText(String.format(stringRate, productRate));
+        }
         if (product.getQuantity().equals("")) {
             holder.tvItemQuantity.setVisibility(View.GONE);
         } else {
             holder.tvItemQuantity.setText(String.format(stringQuantity, productQuantity));
-
         }
         Glide.with(holder.itemView)
                 .load(product.getImage())
                 .into(holder.ivItem);
         holder.cvItemsDetails.setOnClickListener(view -> listener.onSelected(product));
-
     }
 
     @Override
@@ -72,7 +72,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
 
         CardView cvItemsDetails;
-
         ImageView ivItem;
         TextView tvItemName;
         TextView tvItemQuantity;

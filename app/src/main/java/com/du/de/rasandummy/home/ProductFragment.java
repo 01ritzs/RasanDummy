@@ -1,4 +1,4 @@
-package com.du.de.rasandummy.ItemFragment;
+package com.du.de.rasandummy.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,20 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.db.Product;
-import com.du.de.rasandummy.home.OnProductSelectListener;
-import com.du.de.rasandummy.home.ProductsAdapter;
 import com.du.de.rasandummy.util.AppData;
 
 import java.util.List;
 
-public class ChildFragment extends Fragment implements OnProductSelectListener {
+public class ProductFragment extends Fragment implements OnProductSelectListener {
 
     List<Product> products;
     private RecyclerView rvItemsList;
     public View rootView;
     private ProductsAdapter productsAdapter;
 
-    public ChildFragment(List<Product> products) {
+    public ProductFragment(List<Product> products) {
         this.products = products;
     }
 
@@ -34,7 +32,7 @@ public class ChildFragment extends Fragment implements OnProductSelectListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle saveInstanceState) {
         super.onCreateView(inflater, container, saveInstanceState);
-        rootView = inflater.inflate(R.layout.fragment_child, null);
+        rootView = inflater.inflate(R.layout.fragment_product, null);
         initRecyclerView();
         return rootView;
     }

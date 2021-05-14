@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.du.de.rasandummy.ItemFragment.ViewPagerAdapter;
 import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.cart.CartActivity;
 import com.du.de.rasandummy.db.Category;
