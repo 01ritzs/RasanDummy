@@ -74,4 +74,8 @@ public class AppData extends Activity {
         }
         return size;
     }
+
+    public void clearSelectedItems() {
+        selectedProduct.clear();
+    }
 }

@@ -36,4 +36,9 @@
     <string name="action_copy">Copy</string>
     <string name="action_print">Print</string>
     <string name="no_data_found">No data found</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="all_item_from_the">All item from the cart will be deleted. Are you sure?</string>
+    <string name="delete_cart">Delete cart?</string>
+    <string name="no_item_in_cart">No item in cart</string>
 </resources>
