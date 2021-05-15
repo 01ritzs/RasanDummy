@@ -22,4 +22,6 @@
     <dimen name="depth">2dp</dimen>
     <dimen name="badge_size">16dp</dimen>
     <dimen name="item_image_height">150dp</dimen>
+    <dimen name="item_image_height_cart">100dp</dimen>
+    <dimen name="item_image_width">100dp</dimen>
 </resources>

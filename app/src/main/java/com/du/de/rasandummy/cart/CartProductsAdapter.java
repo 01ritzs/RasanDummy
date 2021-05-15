@@ -48,7 +48,11 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
         String stringQuantity = context.getResources().getString(R.string.product_quantity);
         String stringRate = context.getResources().getString(R.string.rs_);
         holder.tvItemName.setText(product.getName());
-        holder.tvItemQuantity.setText(String.format(stringQuantity, productQuantity));
+        if (product.getQuantity().equals("")) {
+            holder.tvItemQuantity.setVisibility(View.GONE);
+        } else {
+            holder.tvItemQuantity.setText(String.format(stringQuantity, productQuantity));
+        }
         holder.tvItemRate.setText(String.format(stringRate, productRate));
         holder.tvCount.setText(String.valueOf(count));
         Glide.with(holder.itemView)

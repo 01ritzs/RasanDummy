@@ -42,12 +42,9 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         fabShare = findViewById(R.id.fabShare);
         ivBack.setOnClickListener(view -> onBackPressed());
         selectedProducts = AppData.getInstance().getSelectedProduct();
-        fabShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AdUtils.instance.showInterstitialAd(CartActivity.this);
-                shareGroceryList(selectedProducts);
-            }
+        fabShare.setOnClickListener(view -> {
+            AdUtils.instance.showInterstitialAd(CartActivity.this);
+            shareGroceryList(selectedProducts);
         });
         fabShare.setOnClickListener(view -> shareGroceryList(selectedProducts));
         setTotal(selectedProducts);
@@ -109,7 +106,8 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         for (Map.Entry<Product, Integer> entry : selectedProducts.entrySet()) {
             Product product = entry.getKey();
             int count = entry.getValue();
-            int itemCost = Integer.parseInt(product.getRate()) * count;
+            int rate = Integer.parseInt(product.getRate());
+            int itemCost = rate * count;
             total += itemCost;
         }
         return total;

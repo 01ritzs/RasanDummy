@@ -87,7 +87,8 @@ for file in glob.glob(DIR):
         if i.rate == '':
             setattr(i, "rate", i.mrp)
 
-        productArray.append(Product(i.name, i.rate, i.image, i.quantity, i.mrp))
+        fRate = i.rate.split('.')[0]
+        productArray.append(Product(i.name, fRate, i.image, i.quantity, i.mrp))
 
     fullPath = file.title()
     category = fullPath.replace('Rasandummy-Json-Data/', '')
