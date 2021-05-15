@@ -15,7 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.du.de.rasandummy.R;
@@ -43,34 +44,54 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
 
     private static final String TAG = HomeActivity.class.getName();
 
-    List<Product> productList = new ArrayList<>();
-    RecyclerView rvItemsList;
-    //    private ProductsAdapter productsAdapter;
-    private ImageView ivCart;
+    List<Category> categoryList = new ArrayList<>();
+    private TextView tvCart;
+    private ImageView ivCancel;
     private RelativeLayout rvProgressBar;
     private TextView tvErrorMessage;
     private EditText etSearch;
     private AdView adView;
     private ViewPager viewPager;
+    private FragmentTransaction fragmentTransaction;
+    private SearchFragment searchFragment;
+    private FragmentManager fragmentManager;
+    private boolean isSearchEnabled = false;
 //    private InterstitialAd interstitialAd;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        ivCart = findViewById(R.id.ivCart);
+        tvCart = findViewById(R.id.tvCart);
+        ivCancel = findViewById(R.id.ivCancel);
         rvProgressBar = findViewById(R.id.rvProgressBar);
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         etSearch = findViewById(R.id.etSearch);
         adView = findViewById(R.id.adView);
         viewPager = findViewById(R.id.vp);
-        ivCart.setOnClickListener(view -> {
+        tvCart.setOnClickListener(view -> {
             gotoNextScreen();
             AdUtils.getInstance().loadBannerAd(adView);
             AdUtils.getInstance().showInterstitialAd(this);
         });
+        ivCancel.setOnClickListener(view -> {
+            etSearch.setText("");
+            closeSearchView();
+        });
         initFirebase();
+        initSearchView();
+    }
+
+    private void initFragmentTransaction() {
+        fragmentTransaction = getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down);
+    }
+
+    private void initSearchView() {
+        searchFragment = SearchFragment.newInstance();
+        initFragmentTransaction();
     }
 
     private void initViewPager(List<Category> categories) {
@@ -99,7 +120,7 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
                     getResources().getString(R.string.no_internet),
                     Snackbar.LENGTH_INDEFINITE).setAction(getResources().getString(R.string.retry),
                     v -> initFirebase()).show();
-            updateErrorStatus(productList);
+            updateErrorStatus(categoryList);
         }
     }
 
@@ -113,17 +134,11 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
                 rvProgressBar.setVisibility(View.GONE);
                 GenericTypeIndicator<ArrayList<Category>> gti = new GenericTypeIndicator<ArrayList<Category>>() {
                 };
-                // Fetch products from snapshot
                 List<Category> categories = snapshot.getValue(gti);
-//                updateErrorStatus(products);
-                // Populate product list
-//                productList.addAll(categories);
-                // Save product list in app data
+                updateErrorStatus(categories);
                 AppData.getInstance().setCategories(categories);
-                // Populate product list
-//                productsAdapter.setList(productList);
-//                initSearch(productList);
                 initViewPager(categories);
+                initSearch();
             }
 
             @Override
@@ -134,7 +149,7 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
         });
     }
 
-    private void initSearch(final List<Product> productList) {
+    private void initSearch() {
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -142,7 +157,7 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                productsAdapter.setList(ProductUtil.sort(productList, charSequence.toString()));
+                onSearchTextChanged(charSequence);
             }
 
             @Override
@@ -151,21 +166,26 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
         });
     }
 
-    private void updateErrorStatus(List<Product> products) {
-        if (products.size() > 0) {
+    private void onSearchTextChanged(CharSequence charSequence) {
+        if (charSequence.length() > 0) {
+            ivCancel.setVisibility(View.VISIBLE);
+            if (!isSearchEnabled) {
+                openSearchView();
+            }
+            searchFragment.searchWith(charSequence.toString());
+        } else {
+            ivCancel.setVisibility(View.INVISIBLE);
+            closeSearchView();
+        }
+    }
+
+    private void updateErrorStatus(List<Category> categories) {
+        if (categories.size() > 0) {
             tvErrorMessage.setVisibility(View.GONE);
         } else {
             tvErrorMessage.setVisibility(View.VISIBLE);
         }
     }
-
-   /* private void initRecyclerView() {
-        rvItemsList = rootView.findViewById(R.id.rvItemsList);
-        rvItemsList.setHasFixedSize(true);
-        rvItemsList.setLayoutManager(new GridLayoutManager(this, 1));
-        productsAdapter = new ProductsAdapter(productList, this);
-        rvItemsList.setAdapter(productsAdapter);
-    }*/
 
     @Override
     public void onSelected(Product product) {
@@ -178,11 +198,32 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
     }
 
     private void updateBadge() {
-        int selectedItemCount = AppData.getInstance().getSelectedProduct().size();
+        int selectedItemCount = AppData.getInstance().getSelectedProductSize();
         if (selectedItemCount > 0) {
-            ivCart.setColorFilter(getResources().getColor(R.color.red));
+            tvCart.setText(String.valueOf(selectedItemCount));
         } else {
-            ivCart.setColorFilter(getResources().getColor(R.color.grey_dark));
+            tvCart.setText("");
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isSearchEnabled) {
+            closeSearchView();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void openSearchView() {
+        isSearchEnabled = true;
+        initFragmentTransaction();
+        fragmentTransaction.add(R.id.fcvSearch, searchFragment, null).commit();
+    }
+
+    private void closeSearchView() {
+        isSearchEnabled = false;
+        initFragmentTransaction();
+        fragmentTransaction.remove(searchFragment).commit();
     }
 }

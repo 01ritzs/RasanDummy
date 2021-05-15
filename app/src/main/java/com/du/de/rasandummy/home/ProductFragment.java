@@ -1,11 +1,13 @@
 package com.du.de.rasandummy.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,12 +19,13 @@ import com.du.de.rasandummy.util.AppData;
 
 import java.util.List;
 
-public class ProductFragment extends Fragment implements OnProductSelectListener {
+public class ProductFragment extends Fragment implements OnProductSelectListener{
 
     List<Product> products;
     private RecyclerView rvItemsList;
     public View rootView;
     private ProductsAdapter productsAdapter;
+    private OnProductSelectListener mListener;
 
     public ProductFragment(List<Product> products) {
         this.products = products;
@@ -32,13 +35,24 @@ public class ProductFragment extends Fragment implements OnProductSelectListener
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle saveInstanceState) {
         super.onCreateView(inflater, container, saveInstanceState);
-        rootView = inflater.inflate(R.layout.fragment_product, null);
+        rootView = inflater.inflate(R.layout.fragment_products, null);
         initRecyclerView();
         return rootView;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnProductSelectListener) {
+            mListener = (OnProductSelectListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement ItemClickListener");
+        }
+    }
+
     private void initRecyclerView() {
-        rvItemsList = rootView.findViewById(R.id.rvItemsList);
+        rvItemsList = rootView.findViewById(R.id.rvProducts);
         rvItemsList.setHasFixedSize(true);
         rvItemsList.setLayoutManager(new GridLayoutManager(this.getActivity(), 2));
         productsAdapter = new ProductsAdapter(products, this);
@@ -47,8 +61,6 @@ public class ProductFragment extends Fragment implements OnProductSelectListener
 
     @Override
     public void onSelected(Product product) {
-        AppData.getInstance().addProductToCart(product);
-        String message = getResources().getString(R.string.added_to_cart);
-        Toast.makeText(this.getActivity(), String.format(message, product.getName()), Toast.LENGTH_SHORT).show();
+        mListener.onSelected(product);
     }
 }

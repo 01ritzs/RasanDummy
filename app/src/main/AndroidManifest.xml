@@ -19,7 +19,7 @@
             android:value="@string/app_id" />
 
 
-        <activity android:name=".Splash">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

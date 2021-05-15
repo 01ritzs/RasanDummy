@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class ProductUtil {
 
-    public static List<Product> sort(List<Product> productList, String searchKey) {
+    public static List<Product> filter(List<Product> productList, String searchKey) {
         if (searchKey == null || searchKey.trim().length() <= 0) {
             return productList;
         }

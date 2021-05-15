@@ -46,7 +46,7 @@
                 app:layout_constraintBottom_toTopOf="@id/tvItemRate"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                tools:text="Item name \nItem name \n Item name \n Item name \n " />
+                tools:text="Item name" />
 
             <TextView
                 android:id="@+id/tvItemRate"

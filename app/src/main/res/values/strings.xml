@@ -28,4 +28,12 @@
     <string name="list_is_prepared">List is prepared from Rasan Dummy App. </string>
     <string name="share">Share</string>
     <string name="share_using">Share using ...</string>
+
+
+
+    <string name="action_share">Share</string>
+    <string name="action_upload">Upload</string>
+    <string name="action_copy">Copy</string>
+    <string name="action_print">Print</string>
+    <string name="no_data_found">No data found</string>
 </resources>
