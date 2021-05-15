@@ -27,6 +27,8 @@ import com.du.de.rasandummy.util.AdUtils;
 import com.du.de.rasandummy.util.AppData;
 import com.du.de.rasandummy.util.Constants;
 import com.du.de.rasandummy.util.NetworkUtil;
+import com.du.de.rasandummy.util.ProductUtil;
+import com.du.de.rasandummy.util.RecentManager;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -54,9 +56,7 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
     private ViewPager viewPager;
     private FragmentTransaction fragmentTransaction;
     private SearchFragment searchFragment;
-    private FragmentManager fragmentManager;
     private boolean isSearchEnabled = false;
-//    private InterstitialAd interstitialAd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,13 +71,14 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
         viewPager = findViewById(R.id.vp);
         tvCart.setOnClickListener(view -> {
             gotoNextScreen();
-            AdUtils.getInstance().loadBannerAd(adView);
             AdUtils.getInstance().showInterstitialAd(this);
         });
         ivCancel.setOnClickListener(view -> {
             etSearch.setText("");
             closeSearchView();
         });
+        AdUtils.getInstance().loadBannerAd(adView);
+        AdUtils.getInstance().loadInterstitial(this);
         initFirebase();
         initSearchView();
     }
@@ -135,6 +136,7 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
                 GenericTypeIndicator<ArrayList<Category>> gti = new GenericTypeIndicator<ArrayList<Category>>() {
                 };
                 List<Category> categories = snapshot.getValue(gti);
+                categories = new RecentManager(HomeActivity.this).addRecentCategory(categories);
                 updateErrorStatus(categories);
                 AppData.getInstance().setCategories(categories);
                 initViewPager(categories);
@@ -195,6 +197,7 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
         String message = getResources().getString(R.string.added_to_cart);
         Toast.makeText(this, String.format(message, product.getName()), Toast.LENGTH_SHORT).show();
         updateBadge();
+        new RecentManager(this).addProduct(product);
     }
 
     private void updateBadge() {

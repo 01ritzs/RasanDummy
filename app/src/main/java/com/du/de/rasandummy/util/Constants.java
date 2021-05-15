@@ -6,4 +6,5 @@ public class Constants {
     public static final String DIVIDER = "--------------------------------" + NEW_LINE;
     public static final String HEADER = "Quantity - Items" + NEW_LINE;
     public static final String FIREBASE_DB_NAME = "categories";
+    public static final String RECENT = "Recent";
 }

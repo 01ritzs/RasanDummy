@@ -1,7 +1,5 @@
 package com.du.de.rasandummy.util;
 
-import android.app.Activity;
-
 import com.du.de.rasandummy.db.Category;
 import com.du.de.rasandummy.db.Product;
 
@@ -10,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AppData extends Activity {
+public class AppData {
 
     private static AppData appData = new AppData();
 
