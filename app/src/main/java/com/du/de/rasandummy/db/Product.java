@@ -5,6 +5,8 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 @Entity
 public class Product {
 
@@ -68,5 +70,22 @@ public class Product {
 
     public void setRate(String rate) {
         this.rate = rate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return id == product.id &&
+                Objects.equals(image, product.image) &&
+                Objects.equals(name, product.name) &&
+                Objects.equals(quantity, product.quantity) &&
+                Objects.equals(rate, product.rate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, image, name, quantity, rate);
     }
 }

@@ -36,7 +36,7 @@ public class ProductUtil {
         sb.append(Constants.HEADER);
         sb.append(Constants.DIVIDER);
         for (Map.Entry<Product, Integer> entry : mapProduct.entrySet()) {
-            sb.append(entry.getValue() + " - - - - " + entry.getKey().getName() + Constants.NEW_LINE);
+            sb.append(entry.getValue() + " - -  " + entry.getKey().getQuantity() + " - - " + entry.getKey().getName() + Constants.NEW_LINE);
         }
         sb.append(Constants.DIVIDER);
         return sb.toString();
