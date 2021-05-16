@@ -136,6 +136,8 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
                 GenericTypeIndicator<ArrayList<Category>> gti = new GenericTypeIndicator<ArrayList<Category>>() {
                 };
                 List<Category> categories = snapshot.getValue(gti);
+
+
                 categories = new RecentManager(HomeActivity.this).addRecentCategory(categories);
                 updateErrorStatus(categories);
                 AppData.getInstance().setCategories(categories);

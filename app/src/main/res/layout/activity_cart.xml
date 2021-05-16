@@ -46,6 +46,19 @@
         app:layout_constraintTop_toBottomOf="@id/ivBack" />
 
     <TextView
+        android:id="@+id/tvApprox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small"
+        android:text="@string/approx"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_small"
+        app:layout_constraintBottom_toBottomOf="@id/tvTotal"
+        app:layout_constraintRight_toLeftOf="@id/tvTotal" />
+
+    <TextView
         android:id="@+id/tvTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
