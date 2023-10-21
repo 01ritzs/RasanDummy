@@ -40,5 +40,6 @@
     <string name="all_item_from_the">All item from the cart will be deleted. Are you sure?</string>
     <string name="delete_cart">Delete cart?</string>
     <string name="no_item_in_cart">No item in cart</string>
-    <string name="approx">Approx</string>
+    <string name="mrp_">MRP: %1$s</string>
+    <string name="save_">Save: %1$d</string>
 </resources>

@@ -71,14 +71,14 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
         viewPager = findViewById(R.id.vp);
         tvCart.setOnClickListener(view -> {
             gotoNextScreen();
-            AdUtils.getInstance().showInterstitialAd(this);
+//            AdUtils.getInstance().showInterstitialAd(this);
         });
         ivCancel.setOnClickListener(view -> {
             etSearch.setText("");
             closeSearchView();
         });
-        AdUtils.getInstance().loadBannerAd(adView);
-        AdUtils.getInstance().loadInterstitial(this);
+        //AdUtils.getInstance().loadBannerAd(adView);
+//        AdUtils.getInstance().loadInterstitial(this);
         initFirebase();
         initSearchView();
     }
@@ -110,7 +110,7 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
     protected void onResume() {
         super.onResume();
         updateBadge();
-        AdUtils.getInstance().loadInterstitial(this);
+//        AdUtils.getInstance().loadInterstitial(this);
     }
 
     private void initFirebase() {

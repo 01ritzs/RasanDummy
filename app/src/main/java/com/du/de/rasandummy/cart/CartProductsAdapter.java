@@ -45,13 +45,21 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
         holder.product = product;
         String productQuantity = String.valueOf(product.getQuantity());
         String productRate = String.valueOf(product.getRate());
+        String productMrp = String.valueOf(product.getMrp());
         String stringQuantity = context.getResources().getString(R.string.product_quantity);
         String stringRate = context.getResources().getString(R.string.rs_);
+        String stringMrp = context.getResources().getString(R.string.mrp_);
         holder.tvItemName.setText(product.getName());
         if (product.getQuantity().equals("")) {
             holder.tvItemQuantity.setVisibility(View.GONE);
         } else {
             holder.tvItemQuantity.setText(String.format(stringQuantity, productQuantity));
+        }
+        if (product.getMrp() > 0 && product.getRate() < product.getMrp()) {
+            holder.tvItemMrp.setVisibility(View.VISIBLE);
+            holder.tvItemMrp.setText(String.format(stringMrp, productMrp));
+        } else {
+            holder.tvItemMrp.setVisibility(View.GONE);
         }
         holder.tvItemRate.setText(String.format(stringRate, productRate));
         holder.tvCount.setText(String.valueOf(count));
@@ -81,6 +89,7 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
         public TextView tvCount;
         public TextView tvItemQuantity;
         public TextView tvItemRate;
+        public TextView tvItemMrp;
 
         public CartProductViewHolder(@NonNull View itemView, OnCartProductSelectListener listener) {
             super(itemView);
@@ -91,6 +100,7 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
             tvCount = itemView.findViewById(R.id.tvCount);
             tvItemQuantity = itemView.findViewById(R.id.tvItemQuantity);
             tvItemRate = itemView.findViewById(R.id.tvItemRate);
+            tvItemMrp = itemView.findViewById(R.id.tvItemMrp);
             ivAdd.setOnClickListener(view -> listener.onAdd(product));
             ivSubtract.setOnClickListener(view -> listener.onSubtract(product));
         }

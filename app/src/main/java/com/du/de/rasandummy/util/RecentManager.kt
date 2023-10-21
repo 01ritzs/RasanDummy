@@ -20,9 +20,9 @@ class RecentManager(private val context: Context) {
 
     fun addRecentCategory(categories: MutableList<Category>): MutableList<Category> {
         val products = SharedPreferenceHelper(context).getProducts()
-        if (products != null && products.size > 0) {
-            if (categories != null && categories.size > 0) {
-                categories.add(0, Category(Constants.RECENT, products))
+        if (products.isNotEmpty()) {
+            if (categories.size > 0) {
+                categories.add(0, Category(100, "", Constants.RECENT, products))
             }
         }
         return categories

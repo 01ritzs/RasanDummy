@@ -32,6 +32,7 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
     private ImageView ivDelete;
     private TextView tvErrorMessage;
     private TextView tvTotal;
+    private TextView tvSave;
     public FloatingActionButton fabShare;
 
     @Override
@@ -40,6 +41,7 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         setContentView(R.layout.activity_cart);
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         tvTotal = findViewById(R.id.tvTotal);
+        tvSave = findViewById(R.id.tvSave);
         ivBack = findViewById(R.id.ivBack);
         ivDelete = findViewById(R.id.ivDelete);
         fabShare = findViewById(R.id.fabShare);
@@ -54,17 +56,13 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
 
     private void onDeletePress(HashMap<Product, Integer> selectedProducts) {
         if (selectedProducts.size() > 0) {
-            new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog)
-                    .setTitle(getResources().getString(R.string.delete_cart))
-                    .setMessage(getResources().getString(R.string.all_item_from_the))
-                    .setPositiveButton(R.string.delete, (dialog, which) -> {
-                        dialog.dismiss();
-                        AppData.getInstance().clearSelectedItems();
-                        adapter.setList(AppData.getInstance().getSelectedProduct());
-                        setTotal(AppData.getInstance().getSelectedProduct());
-                        updateErrorStatus(AppData.getInstance().getSelectedProduct());
-                    })
-                    .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss()).show();
+            new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog).setTitle(getResources().getString(R.string.delete_cart)).setMessage(getResources().getString(R.string.all_item_from_the)).setPositiveButton(R.string.delete, (dialog, which) -> {
+                dialog.dismiss();
+                AppData.getInstance().clearSelectedItems();
+                adapter.setList(AppData.getInstance().getSelectedProduct());
+                setTotal(AppData.getInstance().getSelectedProduct());
+                updateErrorStatus(AppData.getInstance().getSelectedProduct());
+            }).setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss()).show();
         } else {
             Toast.makeText(this, getResources().getString(R.string.no_item_in_cart), Toast.LENGTH_SHORT).show();
         }
@@ -72,7 +70,14 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
 
     private void setTotal(HashMap<Product, Integer> selectedProducts) {
         int total = getTotal(selectedProducts);
+        int save = getSave(selectedProducts);
         tvTotal.setText(String.format(getResources().getString(R.string.total), total));
+        if (save > 0) {
+            tvSave.setVisibility(View.VISIBLE);
+            tvSave.setText(String.format(getResources().getString(R.string.save_), save));
+        } else {
+            tvSave.setVisibility(View.GONE);
+        }
     }
 
     private void initRecyclerView(HashMap<Product, Integer> selectedProducts) {
@@ -123,14 +128,32 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         int total = 0;
         for (Map.Entry<Product, Integer> entry : selectedProducts.entrySet()) {
             Product product = entry.getKey();
-            if (!product.getRate().equals("")) {
+            if (product.getRate() > 0) {
                 int count = entry.getValue();
-                int rate = Integer.parseInt(product.getRate());
+                int rate = product.getRate();
                 int itemCost = rate * count;
                 total += itemCost;
             }
         }
         return total;
+    }
+
+    private int getSave(HashMap<Product, Integer> selectedProducts) {
+        int total = 0;
+        int totalMrp = 0;
+        for (Map.Entry<Product, Integer> entry : selectedProducts.entrySet()) {
+            Product product = entry.getKey();
+            if (product.getRate() > 0) {
+                int count = entry.getValue();
+                int rate = product.getRate();
+                int mrp = product.getMrp();
+                int itemCost = rate * count;
+                int itemMrps = mrp * count;
+                total += itemCost;
+                totalMrp += itemMrps;
+            }
+        }
+        return totalMrp - total;
     }
 
     public void shareGroceryList(HashMap<Product, Integer> selectedProducts) {

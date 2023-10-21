@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 import com.du.de.rasandummy.R;
@@ -42,19 +43,32 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         Product product = list.get(position);
         String productQuantity = String.valueOf(product.getQuantity());
         String productRate = String.valueOf(product.getRate());
+        String productMrp = String.valueOf(product.getMrp());
         String stringQuantity = context.getResources().getString(R.string.product_quantity);
         String stringRate = context.getResources().getString(R.string.rs_);
+        String stringMrp = context.getResources().getString(R.string.mrp_);
         holder.tvItemName.setText(product.getName().trim());
-        if (!product.getRate().equals("")) {
+        if (product.getRate() > 0) {
             holder.tvItemRate.setText(String.format(stringRate, productRate));
+        }
+        if (product.getMrp() > 0 && product.getRate() < product.getMrp()) {
+            holder.tvItemMrp.setVisibility(View.VISIBLE);
+            holder.tvItemMrp.setText(String.format(stringMrp, productMrp));
+        } else {
+            holder.tvItemMrp.setVisibility(View.GONE);
         }
         if (product.getQuantity().equals("")) {
             holder.tvItemQuantity.setVisibility(View.GONE);
         } else {
             holder.tvItemQuantity.setText(String.format(stringQuantity, productQuantity));
         }
+        CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
+        circularProgressDrawable.setStrokeWidth(5f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
         Glide.with(holder.itemView)
                 .load(product.getImage())
+                .placeholder(circularProgressDrawable)
                 .into(holder.ivItem);
         holder.cvItemsDetails.setOnClickListener(view -> listener.onSelected(product));
     }
@@ -76,6 +90,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         TextView tvItemName;
         TextView tvItemQuantity;
         TextView tvItemRate;
+        TextView tvItemMrp;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +99,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
             tvItemName = itemView.findViewById(R.id.tvItemName);
             tvItemQuantity = itemView.findViewById(R.id.tvItemQuantity);
             tvItemRate = itemView.findViewById(R.id.tvItemRate);
+            tvItemMrp = itemView.findViewById(R.id.tvItemMrp);
         }
     }
 }

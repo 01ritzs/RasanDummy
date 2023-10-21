@@ -18,11 +18,17 @@ public class Product {
     String name;
     @SerializedName("quantity")
     String quantity;
+    @SerializedName("searchkeys")
+    String searchkeys;
     @SerializedName("rate")
-    String rate;
+    int rate;
+    @SerializedName("mrp")
+    int mrp;
 
-    public Product(String image, String name, String quantity, String rate) {
+    public Product(String image, String name, String quantity, int rate, int mrp, String searchkeys) {
         this.image = image;
+        this.searchkeys = searchkeys;
+        this.mrp = mrp;
         this.name = name;
         this.quantity = quantity;
         this.rate = rate;
@@ -64,12 +70,28 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public String getRate() {
+    public String getSearchkeys() {
+        return searchkeys;
+    }
+
+    public void setSearchkeys(String searchkeys) {
+        this.searchkeys = searchkeys;
+    }
+
+    public int getRate() {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(int rate) {
         this.rate = rate;
+    }
+
+    public int getMrp() {
+        return mrp;
+    }
+
+    public void setMrp(int mrp) {
+        this.mrp = mrp;
     }
 
     @Override
@@ -81,6 +103,8 @@ public class Product {
                 Objects.equals(image, product.image) &&
                 Objects.equals(name, product.name) &&
                 Objects.equals(quantity, product.quantity) &&
+                Objects.equals(mrp, product.mrp) &&
+                Objects.equals(searchkeys, product.searchkeys) &&
                 Objects.equals(rate, product.rate);
     }
 
