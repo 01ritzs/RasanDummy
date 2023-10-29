@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/grey_light"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:weightSum="1">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvItemsDetails"
@@ -15,6 +16,7 @@
         android:layout_marginLeft="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_medium"
         android:background="@color/white"
         android:backgroundTint="@color/white"
         android:elevation="10dp"

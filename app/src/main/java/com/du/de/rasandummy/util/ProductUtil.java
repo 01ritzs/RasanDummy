@@ -29,14 +29,14 @@ public class ProductUtil {
 
     public static String getListToShare(Map<Product, Integer> mapProduct) {
         SpannableStringBuilder sb = new SpannableStringBuilder();
-        sb.append(Constants.APP_URL);
+//        sb.append(Constants.APP_URL);
         sb.append(Constants.DIVIDER);
         sb.append(getTodayDate() + Constants.NEW_LINE);
         sb.append(Constants.DIVIDER);
         sb.append(Constants.HEADER);
         sb.append(Constants.DIVIDER);
         for (Map.Entry<Product, Integer> entry : mapProduct.entrySet()) {
-            sb.append(entry.getValue() + " - -  " + entry.getKey().getQuantity() + " - - " + entry.getKey().getName() + Constants.NEW_LINE);
+            sb.append(entry.getValue() + " - -  Rs." + entry.getKey().getMrp() + " - -  " + entry.getKey().getQuantity() + " - - " + entry.getKey().getName() + Constants.NEW_LINE);
         }
         sb.append(Constants.DIVIDER);
         return sb.toString();
