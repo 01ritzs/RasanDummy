@@ -44,6 +44,7 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
     private TextView tvErrorMessage;
     private TextView tvTotal;
     private TextView tvSave;
+    private TextView tvCart;
     private TextView tvShareMessage;
 
     @Override
@@ -53,6 +54,7 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         tvTotal = findViewById(R.id.tvTotal);
         tvSave = findViewById(R.id.tvSave);
+        tvCart = findViewById(R.id.tvCart);
         tvShareMessage = findViewById(R.id.tvShareMessage);
         ivBack = findViewById(R.id.ivBack);
         ivDelete = findViewById(R.id.ivDelete);
@@ -71,6 +73,20 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         setTotal(selectedProducts);
         initRecyclerView(selectedProducts);
         updateErrorStatus(selectedProducts);
+    }
+
+    private void updateCartCount() {
+        LinkedHashMap<Product, Integer> selectedProducts = AppData.getInstance().getSelectedProduct();
+        int itemCount = 0;
+        for (Map.Entry<Product, Integer> item : selectedProducts.entrySet()) {
+            itemCount += item.getValue();
+        }
+        if (itemCount > 0) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(getResources().getString(R.string.item_cart));
+            sb.append("(").append(String.valueOf(itemCount)).append(")");
+            tvCart.setText(sb.toString());
+        }
     }
 
     private void onClickOrderButton() {
@@ -135,6 +151,7 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         } else {
             tvSave.setVisibility(View.GONE);
         }
+        updateCartCount();
     }
 
     private void initRecyclerView(HashMap<Product, Integer> selectedProducts) {
