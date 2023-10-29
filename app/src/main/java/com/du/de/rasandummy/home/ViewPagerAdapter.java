@@ -20,8 +20,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
-        return new ProductFragment(list.get(position).getProducts());
+    public ProductFragment getItem(int position) {
+        ProductFragment fragment = ProductFragment.getInstance();
+        fragment.setProducts(list.get(position).getProducts());
+        return fragment;
     }
 
     @Override

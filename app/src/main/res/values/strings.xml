@@ -25,6 +25,7 @@
     <string name="no_data_to_show">No data to show</string>
     <string name="total">Total: %1$d</string>
     <string name="no_item_added_in_cart">No item added in cart</string>
+    <string name="share_your_list">Share your list with USHA MART on Whatsapp.\nDon\'t have the number saved?</string>
     <string name="list_is_prepared">List is prepared from Rasan Dummy App. </string>
     <string name="share">Share</string>
     <string name="share_using">Share using ...</string>
@@ -42,4 +43,5 @@
     <string name="no_item_in_cart">No item in cart</string>
     <string name="mrp_">MRP: %1$s</string>
     <string name="save_">Save: %1$d</string>
+    <string name="add_to_contact">Order from USHA MART 62015433329</string>
 </resources>

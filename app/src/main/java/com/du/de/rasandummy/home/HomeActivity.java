@@ -196,8 +196,8 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
         // Add product in Map
         AppData.getInstance().addProductToCart(product);
         // Show message for adding item in cart
-        String message = getResources().getString(R.string.added_to_cart);
-        Toast.makeText(this, String.format(message, product.getName()), Toast.LENGTH_SHORT).show();
+//        String message = getResources().getString(R.string.added_to_cart);
+//        Toast.makeText(this, String.format(message, product.getName()), Toast.LENGTH_SHORT).show();
         updateBadge();
         new RecentManager(this).addProduct(product);
     }

@@ -1,8 +1,16 @@
 package com.du.de.rasandummy.cart;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.db.Product;
 import com.du.de.rasandummy.util.AppData;
-import com.du.de.rasandummy.util.Constants;
 import com.du.de.rasandummy.util.ProductUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -26,6 +33,10 @@ import java.util.Map;
 
 public class CartActivity extends AppCompatActivity implements OnCartProductSelectListener {
 
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 12;
+    private final int CREATE_CONTACT_CODE = 100;
+    public FloatingActionButton fabShare;
+    public Button btnOrder;
     private RecyclerView rvItems;
     private CartProductsAdapter adapter;
     private ImageView ivBack;
@@ -33,7 +44,7 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
     private TextView tvErrorMessage;
     private TextView tvTotal;
     private TextView tvSave;
-    public FloatingActionButton fabShare;
+    private TextView tvShareMessage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,16 +53,62 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         tvTotal = findViewById(R.id.tvTotal);
         tvSave = findViewById(R.id.tvSave);
+        tvShareMessage = findViewById(R.id.tvShareMessage);
         ivBack = findViewById(R.id.ivBack);
         ivDelete = findViewById(R.id.ivDelete);
         fabShare = findViewById(R.id.fabShare);
+        btnOrder = findViewById(R.id.btnOrder);
         LinkedHashMap<Product, Integer> selectedProducts = AppData.getInstance().getSelectedProduct();
         ivBack.setOnClickListener(v -> onBackPressed());
         ivDelete.setOnClickListener(v -> onDeletePress(selectedProducts));
-        fabShare.setOnClickListener(view -> shareGroceryList(selectedProducts));
+        fabShare.setOnClickListener(view -> shareGroceryList());
+        tvShareMessage.setOnClickListener((view) -> {
+            onClickSaveContact();
+        });
+        btnOrder.setOnClickListener(v -> {
+            onClickOrderButton();
+        });
         setTotal(selectedProducts);
         initRecyclerView(selectedProducts);
         updateErrorStatus(selectedProducts);
+    }
+
+    private void onClickOrderButton() {
+        checkPermissionForContact();
+    }
+
+    public boolean contactExists(Context context, String number) {
+        /// number is the phone number
+        Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+        String[] mPhoneNumberProjection = {
+                ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME};
+        Cursor cur = context.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
+        try {
+            if (cur != null && cur.moveToFirst()) {
+                cur.close();
+                return true;
+            }
+        } catch (Exception e) {
+            if (cur != null) cur.close();
+            return false;
+        }
+        return false;
+    }
+
+    private void onClickSaveContact() {
+        Intent i = new Intent(ContactsContract.Intents.Insert.ACTION);
+        i.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+        i.putExtra(ContactsContract.Intents.Insert.NAME, "Usha Mart");
+        i.putExtra(ContactsContract.Intents.Insert.PHONE, "6201543329");
+        startActivityForResult(i, CREATE_CONTACT_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CREATE_CONTACT_CODE) {
+            shareGroceryList();
+        }
     }
 
     private void onDeletePress(HashMap<Product, Integer> selectedProducts) {
@@ -156,7 +213,8 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
         return totalMrp - total;
     }
 
-    public void shareGroceryList(HashMap<Product, Integer> selectedProducts) {
+    public void shareGroceryList() {
+        LinkedHashMap<Product, Integer> selectedProducts = AppData.getInstance().getSelectedProduct();
         if (selectedProducts.size() > 0) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
@@ -166,6 +224,58 @@ public class CartActivity extends AppCompatActivity implements OnCartProductSele
             startActivity(Intent.createChooser(intent, getString(R.string.share_using)));
         } else {
             Toast.makeText(this, getResources().getString(R.string.no_item_in_cart), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void checkPermissionForContact() {
+        // Check the SDK version and whether the permission is already granted or not.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                checkSelfPermission(Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermission();
+            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
+        } else {
+            // Android version is lesser than 6.0 or the permission is already granted.
+            checkToAddNewContact();
+        }
+    }
+
+    private void requestPermission() {
+        String[] permissions = {Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_CONTACTS};
+        requestPermissions(permissions, PERMISSIONS_REQUEST_READ_CONTACTS);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted
+                checkToAddNewContact();
+            } else {
+                showAlertDialogForPermission();
+            }
+        }
+    }
+
+    private void showAlertDialogForPermission() {
+        new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog)
+                .setTitle("Grant permission?")
+                .setMessage("We request your permission to be able to save contact for you.")
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    requestPermission();
+                    dialogInterface.dismiss();
+                })
+                .setNegativeButton("No", ((dialogInterface, i) -> {
+                    shareGroceryList();
+                    dialogInterface.dismiss();
+                })).show();
+    }
+
+    private void checkToAddNewContact() {
+        if (contactExists(this, "6201543329")) {
+            shareGroceryList();
+        } else {
+            onClickSaveContact();
         }
     }
 }

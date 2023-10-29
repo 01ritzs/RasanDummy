@@ -17,18 +17,19 @@ import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.db.Product;
 import com.du.de.rasandummy.util.AppData;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProductFragment extends Fragment implements OnProductSelectListener{
+public class ProductFragment extends Fragment implements OnProductSelectListener {
 
-    List<Product> products;
+    private List<Product> products = new ArrayList<>();
     private RecyclerView rvItemsList;
     public View rootView;
     private ProductsAdapter productsAdapter;
     private OnProductSelectListener mListener;
 
-    public ProductFragment(List<Product> products) {
-        this.products = products;
+    public static ProductFragment getInstance() {
+        return new ProductFragment();
     }
 
     @Nullable
@@ -62,5 +63,9 @@ public class ProductFragment extends Fragment implements OnProductSelectListener
     @Override
     public void onSelected(Product product) {
         mListener.onSelected(product);
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }
