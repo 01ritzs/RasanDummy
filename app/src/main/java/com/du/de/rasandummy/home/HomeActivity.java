@@ -2,6 +2,7 @@ package com.du.de.rasandummy.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -10,24 +11,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.cart.CartActivity;
 import com.du.de.rasandummy.db.Category;
 import com.du.de.rasandummy.db.Product;
-import com.du.de.rasandummy.util.AdUtils;
 import com.du.de.rasandummy.util.AppData;
 import com.du.de.rasandummy.util.Constants;
 import com.du.de.rasandummy.util.NetworkUtil;
-import com.du.de.rasandummy.util.ProductUtil;
 import com.du.de.rasandummy.util.RecentManager;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.snackbar.Snackbar;
@@ -49,6 +47,7 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
     List<Category> categoryList = new ArrayList<>();
     private TextView tvCart;
     private ImageView ivCancel;
+    private ImageView ivGif;
     private RelativeLayout rvProgressBar;
     private TextView tvErrorMessage;
     private EditText etSearch;
@@ -64,6 +63,7 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
         setContentView(R.layout.activity_home);
         tvCart = findViewById(R.id.tvCart);
         ivCancel = findViewById(R.id.ivCancel);
+        ivGif = findViewById(R.id.ivGif);
         rvProgressBar = findViewById(R.id.rvProgressBar);
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         etSearch = findViewById(R.id.etSearch);
@@ -81,6 +81,24 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
 //        AdUtils.getInstance().loadInterstitial(this);
         initFirebase();
         initSearchView();
+    }
+
+    private void loadGif(Boolean showGif) {
+        Glide.with(this)
+                .load(showGif ? R.raw.congratulations : R.raw.class)
+                .into(ivGif);
+    }
+
+    private void playAddToCart() {
+        loadGif(true);
+        ivGif.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ivGif.setVisibility(View.INVISIBLE);
+                loadGif(false);
+            }
+        }, 1500);
     }
 
     private void initFragmentTransaction() {
@@ -198,6 +216,7 @@ public class HomeActivity extends AppCompatActivity implements OnProductSelectLi
         // Show message for adding item in cart
 //        String message = getResources().getString(R.string.added_to_cart);
 //        Toast.makeText(this, String.format(message, product.getName()), Toast.LENGTH_SHORT).show();
+        playAddToCart();
         updateBadge();
         new RecentManager(this).addProduct(product);
     }
