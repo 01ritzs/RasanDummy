@@ -23,7 +23,7 @@
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginLeft="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
-        android:text="@string/app_name"
+        android:text="@string/usha_mart"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_x_large"
         app:layout_constraintLeft_toLeftOf="parent"
