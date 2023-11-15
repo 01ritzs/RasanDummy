@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.request.RequestOptions;
 import com.du.de.rasandummy.R;
 import com.du.de.rasandummy.db.Product;
 
@@ -68,6 +70,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         circularProgressDrawable.start();
         Glide.with(holder.itemView)
                 .load(product.getImage())
+                .apply(new RequestOptions().override(200,200))
                 .placeholder(circularProgressDrawable)
                 .into(holder.ivItem);
         holder.cvItemsDetails.setOnClickListener(view -> listener.onSelected(product));
